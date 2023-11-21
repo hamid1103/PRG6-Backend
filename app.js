@@ -2,9 +2,11 @@ import express from 'express'
 import 'dotenv/config'
 import mongoose from 'mongoose'
 
-const mongoDB = "mongodb://localhost:27017/farmGame"
-let app = express();
 let port = process.env.PORT
+const mongoDB = process.env.mongodb
+
+let app = express();
+app.use(express.json());
 
 const connectDB = async ()=>{
     console.log('Connecting to Mongodb')
