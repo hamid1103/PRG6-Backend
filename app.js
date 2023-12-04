@@ -2,6 +2,7 @@ import express from "express";
 import {connectDB} from "./db.js";
 import {authRouter} from "./Routes/AuthRoutes.js";
 import {userRouter} from "./Routes/user.js";
+import {farmRouter} from "./Routes/farm.js";
 
 let port = process.env.PORT
 let app = express();
@@ -12,6 +13,7 @@ app.use(express.json());
 //Define Routes
 app.use('/auth', authRouter);
 app.use('/user', userRouter);
+app.use('/farm', farmRouter)
 
 
 app.listen(port, () => {

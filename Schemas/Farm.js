@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, {Mongoose} from "mongoose";
 
 const farmSchema = new mongoose.Schema(
     {
@@ -8,7 +8,7 @@ const farmSchema = new mongoose.Schema(
             unique: true
         },
         Days: {
-            type: Number,
+            type: String,
         },
         level: {
             type: Number,
@@ -28,6 +28,10 @@ const farmSchema = new mongoose.Schema(
         },
         money: {
             type: Number
+        },
+        owner: {
+            type: mongoose.Types.ObjectId,
+            ref: "User"
         }
     }, {timestamps: true}
 );

@@ -12,3 +12,6 @@ const cropFarmSchema= new mongoose.Schema({
         type:Number
     }
 })
+
+const cropFarm = new mongoose.model('cropFarm', cropFarmSchema)
+export {cropFarm}

@@ -18,3 +18,6 @@ const plotSchema = new mongoose.Schema({
         ref: "Farm"
     }
 })
+
+const Plot = new mongoose.model('Plot', plotSchema)
+export {Plot}
