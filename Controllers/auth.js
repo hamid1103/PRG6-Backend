@@ -1,6 +1,5 @@
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
-const User = require('../Schemas/User');
+import jwt from 'jsonwebtoken'
+import {User} from '../Schemas/User.js'
 
 // Register a new user
 const register = async (req, res, next) => {
@@ -38,5 +37,4 @@ const login = async (req, res, next) => {
         next(error);
     }
 };
-
-module.exports = { register, login };
+export {register, login}

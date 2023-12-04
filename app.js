@@ -1,8 +1,8 @@
-const express = require('express')
-const mongoose = require('mongoose');
-const connectDB = require('./db')
-const authRouter = require('./Routes/AuthRoutes')
-const userRouter = require('./Routes/user')
+import express from "express";
+import mongoose from "mongoose";
+import {connectDB} from "./db.js";
+import {authRouter} from "./Routes/AuthRoutes.js";
+import {userRouter} from "./Routes/user.js";
 
 
 let port = process.env.PORT

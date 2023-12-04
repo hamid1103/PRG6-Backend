@@ -1,6 +1,6 @@
-require('dotenv').config()
+import 'dotenv/config'
 const mongoDB = process.env.mongodb
-const mongoose = require('mongoose');
+import mongoose from "mongoose";
 const connectDB = async () => {
     console.log(mongoDB)
     try {
@@ -10,5 +10,4 @@ const connectDB = async () => {
         console.log('Error connecting to MongoDB:', error);
     }
 };
-
-module.exports = connectDB;
+export {connectDB}

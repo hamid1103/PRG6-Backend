@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const farmSchema = new mongoose.Schema(
     {
         name: {
@@ -13,4 +13,4 @@ const farmSchema = new mongoose.Schema(
 
 //define model
 const Farm = mongoose.model('Farm', farmSchema)
-module.exports = Farm
+export {Farm}

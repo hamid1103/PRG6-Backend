@@ -1,5 +1,5 @@
-const jwt = require('jsonwebtoken');
-const User  = require('../Schemas/User');
+import jwt from 'jsonwebtoken'
+import {User} from '../Schemas/User.js'
 
 const authenticate = async (req, res, next) => {
     const token = req.headers.authorization?.split(' ')[1];
@@ -22,4 +22,4 @@ const authenticate = async (req, res, next) => {
     }
 };
 
-module.exports = { authenticate };
+export {authenticate}
