@@ -13,9 +13,6 @@ const cropSchema = new mongoose.Schema({
     },
     growTime: {
         type: String
-    },
-    cropType: {
-        type: String
     }
 })
 //methods here

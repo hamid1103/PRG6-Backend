@@ -22,4 +22,17 @@ const authenticate = async (req, res, next) => {
     }
 };
 
-export {authenticate}
+const adminAuthorize = async (req, res, next) =>{
+    const user = req.user
+    if(user)
+    {
+        if(user.role==="admin")
+        {
+            next();
+        }else{
+            res.status(403).json({ message: 'You need to be an admin' });
+        }
+    }
+}
+
+export {authenticate, adminAuthorize}

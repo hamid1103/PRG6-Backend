@@ -1,6 +1,11 @@
 import {Farm} from "../Schemas/Farm.js";
 import {User} from "../Schemas/User.js";
 
+/*
+Information:
+cropFarm scheme is used for player/farm inventory
+ */
+
 const createFarm = async (req, res, next) => {
     const user = req.user;
     const {farmName} = req.body
