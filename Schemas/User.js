@@ -21,6 +21,10 @@ const userSchema = new mongoose.Schema(
             type: String,
             enum: ['user', 'admin'],
             default: 'user'
+        },
+        status: {
+            type: String,
+            default: 'farmer'
         }
     },
     { timestamps: true }
@@ -32,7 +36,6 @@ userSchema.pre('save', async function (next)
     if(!user.isModified('password')) return next();
     try {
         user.password = await bcrypt.hash(user.password, 10);
-        console.log("pre save call "+ user.password)
         next();
     } catch (error) {
         return next(error);
