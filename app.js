@@ -49,3 +49,10 @@ function onListen() {
 app.get('/', (req, res) => {
     res.send("<h2>Hello world</h2>")
 })
+
+app.get('/webservicejson', (req, res)=>{
+    res.json({
+        "uri":"https://fgs.arcadianflame.nl/crops/getCrops",
+        "description":"Information about crops for a farm game"
+    })
+})
