@@ -32,7 +32,7 @@ if(process.env.privatekey){
         ca: chain
     };
     https.createServer(credentials, app).listen(443, ()=>{
-        console.log()
+        console.log("Using https")
         onListen()
     })
 }else {
