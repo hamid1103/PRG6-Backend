@@ -44,6 +44,7 @@ if(process.env.privatekey){
 }
 
 function onListen() {
+    console.log(`Listening on ${port}`)
 }
 
 app.get('/', (req, res) => {

@@ -3,7 +3,12 @@ import mongoose from "mongoose";
 const getCrops = async (req, res, next)=>{
     try{
         const crops = await Crop.find({}, 'name iconName').exec()
-        res.json(crops);
+        res.json({
+            items: crops,
+            "_links":{
+                "self":"fgs.arcadianflame.nl/crops"
+            }
+        });
     } catch (err)
     {
         next(err)
