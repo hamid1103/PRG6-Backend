@@ -7,6 +7,7 @@ import {creatorRouter} from "./Routes/creator.js";
 import {cropRouter} from "./Routes/crop.js";
 import * as fs from 'fs';
 import * as https from 'https';
+import * as http from 'http';
 
 let port = process.env.PORT
 let app = express();
@@ -31,10 +32,11 @@ if(process.env.privatekey){
         cert: certificate,
         ca: chain
     };
-    https.createServer(credentials, app).listen(443, ()=>{
-        console.log("Using https")
-        onListen()
-    })
+    var httpServer = http.createServer(app)
+    var httpsServer = https.createServer(credentials, app)
+
+    httpServer.listen(80)
+    httpsServer.listen(443)
 }else {
     app.listen(port, () => {
         onListen();
@@ -42,7 +44,6 @@ if(process.env.privatekey){
 }
 
 function onListen() {
-    console.log(`Example app listening on port ${port}`)
 }
 
 app.get('/', (req, res) => {
