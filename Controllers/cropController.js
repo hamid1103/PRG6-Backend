@@ -114,6 +114,14 @@ function createPagination(total,start,limit) {
 }
 
 const getCrops = async (req, res, next)=>{
+    const acceptedType = req.accepts('json');
+
+    if (!acceptedType) {
+        res.status(406).json({ message: 'Not Acceptable' });
+        return;
+    }
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     const totalItems = await Crop.countDocuments({});
     const start = parseInt(req.query.start);
     const limit = parseInt(req.query.limit);
@@ -168,7 +176,8 @@ const getCrops = async (req, res, next)=>{
         });
     } catch (err)
     {
-        next(err)
+        console.error(err);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 }
 
