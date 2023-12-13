@@ -6,7 +6,7 @@ import {creatorRouter} from "./creator.js";
 
 const cropRouter = express.Router();
 
-cropRouter.delete('/:name', authenticate, adminAuthorize, deleteCrop)
+cropRouter.delete('/:name', deleteCrop)
 
 cropRouter.post('/', registerNewCrop)
 

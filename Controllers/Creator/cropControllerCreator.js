@@ -24,7 +24,7 @@ const deleteCrop = async (req, res, next) => {
     const name = req.params.name
     try {
         await Crop.deleteOne({name: name}).exec();
-        res.json({message: "successfully removed " + name})
+        res.status(200).json({message: "successfully removed " + name})
     } catch (e) {
         next(e)
     }
