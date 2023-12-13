@@ -193,6 +193,8 @@ const findCrops = async (req, res, next) =>{
 }
 
 const findCrop = async (req, res, next)=>{
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     try {
         const crop = await Crop.findOne({name: req.params.name})
         if (!crop) {

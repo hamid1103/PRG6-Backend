@@ -8,14 +8,6 @@ const cropRouter = express.Router();
 
 cropRouter.delete('/:name', authenticate, adminAuthorize, deleteCrop)
 
-cropRouter.options("/:name", (req, res) => {
-    res.header('Allow', 'DELETE');
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'DELETE');
-    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-    res.sendStatus(200);
-});
-
 cropRouter.post('/', registerNewCrop)
 
 cropRouter.get('/', getCrops)
@@ -29,5 +21,12 @@ cropRouter.options("/", (req, res) => {
 
 cropRouter.get('/findCrops/:name', findCrops)
 cropRouter.get('/:name',findCrop)
+cropRouter.options("/:name", (req, res) => {
+    res.header('Allow', 'GET, DELETE, PUT, OPTIONS');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, DELETE, PUT, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+    res.sendStatus(200);
+});
 
 export {cropRouter}
