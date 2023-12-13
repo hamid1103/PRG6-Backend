@@ -6,9 +6,9 @@ import {creatorRouter} from "./creator.js";
 
 const cropRouter = express.Router();
 
-creatorRouter.delete('/:name', authenticate, adminAuthorize, deleteCrop)
+cropRouter.delete('/:name', authenticate, adminAuthorize, deleteCrop)
 
-creatorRouter.options("/:name", (req, res) => {
+cropRouter.options("/:name", (req, res) => {
     res.header('Allow', 'DELETE');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'DELETE');
@@ -16,7 +16,7 @@ creatorRouter.options("/:name", (req, res) => {
     res.sendStatus(200);
 });
 
-creatorRouter.post('/', authenticate, adminAuthorize, registerNewCrop)
+cropRouter.post('/', registerNewCrop)
 
 cropRouter.get('/', getCrops)
 cropRouter.options("/", (req, res) => {

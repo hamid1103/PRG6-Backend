@@ -1,12 +1,169 @@
 import {Crop} from "../Schemas/Crop.js";
 import mongoose from "mongoose";
+
+//Hoeveel items laten zien? Geen limit/start -> currentitems = total
+function currentItems(total, start, limit){
+    let itemsLeft = Math.min(total - start, limit);
+    if(!start||!limit)
+    {
+        return total
+    }else {
+        return itemsLeft
+    }
+}
+
+function numberOfPages(total, start, limit){
+    if (limit <= 0 || !limit || !start)
+    {
+        //geen limit = 1 item per pagina dan denk ik?
+        return total
+    }else {
+        return Math.ceil((total - start) / limit)
+    }
+}
+
+function currentPage(total, start, limit){
+    if(!limit || !start){
+        return 1;
+    }else {
+        return Math.floor((start/limit) + 1)
+    }
+}
+
+function firstPageItem(start){
+    return start ? 0 : start
+}
+
+function lastPageItem(total, start, limit){
+    if (!start || !limit || limit <= 0){
+        return total
+    }else {
+        Math.min(total, start + limit * (Math.ceil(total/limit)-1))
+    }
+}
+
+function previousPageItem(total, start, limit)
+{
+    Math.max(0, start-limit)
+}
+function nextPageItem(total, start, limit){
+    return start + limit;
+}
+
+function getFirstQueryString(total, start, limit)
+{
+    if(!start ||!limit){
+        return ''
+    }else{
+        return `?start=1&limit=${limit}`
+    }
+}
+
+function getLastQueryString(total, start, limit){
+    if(!start || !limit ||limit <= 0)
+    {
+        return 0
+    }else{
+        return `?start=${lastPageItem(total, start, limit)}&limit=${limit}`
+    }
+}
+
+function getPreviousQueryString(total, start, limit){
+    if(!start || !limit)
+    {
+        return ''
+    }else {
+        let lastpageitem = previousPageItem(total, start, limit)
+        return `?start=${lastpageitem}&limit=${limit}`
+    }
+}
+
+function getNextQueryString(total, start, limit){
+    if(!start || !limit)
+    {
+        return ''
+    }else {
+        let npi = nextPageItem(total, start, limit)
+        return `?start=${npi}&limit=${limit}`
+    }
+}
+
+function itemToPageNumber(total, start, limit, itemNumber){
+    if (!start || !limit || !itemNumber || limit <0)
+    {
+        return -1
+    }
+    return Math.floor((itemNumber - start)/limit)
+}
+
+function createPagination(total,start,limit) {
+    return {
+        currentPage: currentPage(total, start, limit),
+        currentItems: currentItems(total, start, limit),
+        totalPages: numberOfPages(total, start, limit),
+        totalItems: total,
+        firstPageItem: firstPageItem(start),
+        lastPageItem: lastPageItem(total, start, limit),
+        previousPageItem: previousPageItem(total, start, limit),
+        nextPageItem: nextPageItem(start, limit),
+        firstQueryString: getFirstQueryString(start, limit),
+        lastQueryString: getLastQueryString(total, start, limit),
+        previousQueryString: getPreviousQueryString(start, limit),
+        nextQueryString: getNextQueryString(total, start, limit),
+    }
+}
+
 const getCrops = async (req, res, next)=>{
+    const totalItems = await Crop.countDocuments({});
+    const start = parseInt(req.query.start);
+    const limit = parseInt(req.query.limit);
+    const itemNumber = parseInt(req.query.item);
+
+    const peg = createPagination(totalItems, start, limit)
+
     try{
-        const crops = await Crop.find({}, 'name iconName').exec()
+        const crops = await Crop.find({}, 'name iconName').skip(start).limit(limit).exec()
+        let items = crops.map((crop) => {
+            const cropj = crop.toObject();
+            return {
+                ...cropj,
+                _links: {
+                    self: { href: `${req.protocol}://${req.get('host')}/crops/${crop.name}` }
+                }
+            };
+        });
         res.json({
-            items: crops,
+            items: items,
             "_links":{
-                "self":"fgs.arcadianflame.nl/crops"
+                "self":`${req.protocol}://${req.get('host')}/crops/`
+            },
+            "pagination": {
+                currentPage: peg.currentPage,
+                currentItems: peg.currentItems,
+                totalPages: peg.totalPages,
+                totalItems: peg.totalItems,
+                _links: {
+                    first: {
+                        page: 1,
+                        href: `${req.protocol}://${req.get('host')}/crops${peg.firstQueryString}`
+                    },
+                    last: {
+                        page: peg.totalPages,
+                        href: `${req.protocol}://${req.get('host')}/crops${peg.lastQueryString}`
+                    },
+                    previous: peg.previousQueryString !== '' ? {
+                        page: peg.currentPage - 1,
+                        href: `${req.protocol}://${req.get('host')}/crops${peg.previousQueryString}`
+                    } : null,
+                    next: peg.nextQueryString !== '' ? {
+                        page: peg.currentPage + 1,
+                        href: `${req.protocol}://${req.get('host')}/crops${peg.nextQueryString}`
+                    } : null,
+                    item: itemNumber ? {
+                        page: itemToPageNumber(totalItems, start, limit, itemNumber),
+                        href: `${req.protocol}://${req.get('host')}/crops?start=${start}&limit=${limit}&item=${itemNumber}`
+                    } : null
+                }
             }
         });
     } catch (err)
