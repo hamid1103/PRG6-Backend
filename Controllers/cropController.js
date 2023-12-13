@@ -143,7 +143,7 @@ const getCrops = async (req, res, next)=>{
         res.json({
             items: items,
             "_links":{
-                "self":`${req.protocol}://${req.get('host')}/crops/`
+                "self": {href: `${req.protocol}://${req.get('host')}/crops`}
             },
             "pagination": {
                 currentPage: peg.currentPage,
