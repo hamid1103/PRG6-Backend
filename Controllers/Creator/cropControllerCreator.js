@@ -44,4 +44,4 @@ const deleteCrop = async (req, res, next) => {
     }
 }
 
-export {registerNewCrop, deleteCrop}
+export {registerNewCrop, deleteCrop, updateCrop}
