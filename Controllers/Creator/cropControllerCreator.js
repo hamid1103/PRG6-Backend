@@ -14,7 +14,7 @@ const registerNewCrop = async (req, res, next) => {
         crop.cropValue = cropValue
         crop.growTime = growTime
         await crop.save();
-        res.json(crop);
+        res.status(201).json(crop);
     } catch (error) {
         next(error);
     }
