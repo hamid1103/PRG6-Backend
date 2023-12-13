@@ -5,6 +5,9 @@ import {Crop} from "../../Schemas/Crop.js";
 const registerNewCrop = async (req, res, next) => {
     const {name, iconName, cropValue, growTime} = req.body
     try {
+        if(!name || !iconName || !cropValue || !growTime){
+            return res.statusCode(400)
+        }
         const crop = new Crop();
         crop.name = name
         crop.iconName = iconName

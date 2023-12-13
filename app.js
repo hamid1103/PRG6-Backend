@@ -14,6 +14,7 @@ let app = express();
 connectDB();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 //Define Routes
 app.use('/auth', authRouter);
