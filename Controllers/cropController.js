@@ -137,7 +137,7 @@ const getCrops = async (req, res, next)=>{
             return {
                 ...cropj,
                 _links: {
-                    self: { href: `${req.protocol}://${req.get('host')}/crops/${crop.name}` }
+                    self: { href: `${req.protocol}://${req.get('host')}/crops/${crop._id}` }
                 }
             };
         });
@@ -204,7 +204,7 @@ const findCrop = async (req, res, next)=>{
         res.json({
             ...cropobj,
             _links: {
-                self: {href: `${req.protocol}://${req.get('host')}/crops/${crop.name}`},
+                self: {href: `${req.protocol}://${req.get('host')}/crops/${crop._id}`},
                 collection: { href: `${req.protocol}://${req.get('host')}/crops` }
             }
         })

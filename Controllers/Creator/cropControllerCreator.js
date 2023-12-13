@@ -21,7 +21,7 @@ const registerNewCrop = async (req, res, next) => {
 }
 
 const updateCrop = async (req, res, next) =>{
-    const id = req.params.ud
+    const id = req.params.id
     const {name, iconName, cropValue, growTime} = req.body
     try {
         if(!iconName || !cropValue || !growTime){
