@@ -38,13 +38,13 @@ function lastPageItem(total, start, limit){
     if (!start || !limit || limit <= 0){
         return total
     }else {
-        Math.min(total, start + limit * (Math.ceil(total/limit)-1))
+        return Math.min(total, start + limit * (Math.ceil(total/limit)-1))
     }
 }
 
 function previousPageItem(total, start, limit)
 {
-    Math.max(0, start-limit)
+    return Math.max(0, start-limit)
 }
 function nextPageItem(total, start, limit){
     return start + limit;
@@ -60,11 +60,12 @@ function getFirstQueryString(total, start, limit)
 }
 
 function getLastQueryString(total, start, limit){
-    if(!start || !limit ||limit <= 0)
+    if(!start || !limit ||limit <= 0 || start === total)
     {
         return 0
     }else{
-        return `?start=${lastPageItem(total, start, limit)}&limit=${limit}`
+        let lpi = lastPageItem(total,start,limit)
+        return `?start=${lpi}&limit=${limit}`
     }
 }
 
@@ -105,10 +106,10 @@ function createPagination(total,start,limit) {
         firstPageItem: firstPageItem(start),
         lastPageItem: lastPageItem(total, start, limit),
         previousPageItem: previousPageItem(total, start, limit),
-        nextPageItem: nextPageItem(start, limit),
-        firstQueryString: getFirstQueryString(start, limit),
+        nextPageItem: nextPageItem(total, start, limit),
+        firstQueryString: getFirstQueryString(total, start, limit),
         lastQueryString: getLastQueryString(total, start, limit),
-        previousQueryString: getPreviousQueryString(start, limit),
+        previousQueryString: getPreviousQueryString(total, start, limit),
         nextQueryString: getNextQueryString(total, start, limit),
     }
 }
