@@ -20,6 +20,20 @@ const registerNewCrop = async (req, res, next) => {
     }
 }
 
+const updateCrop = async (req, res, next) =>{
+    const name = req.params.name
+    const {iconName, cropValue, growTime} = req.body
+    try {
+        if(!iconName || !cropValue || !growTime){
+            return res.status(400).json({error: "Empty inputs"})
+        }
+        let crop = await Crop.findOneAndUpdate({name:name}, {iconName,cropValue,growTime}, {new: true});
+        res.status(204).json(crop);
+    } catch (error) {
+        next(error);
+    }
+}
+
 const deleteCrop = async (req, res, next) => {
     const name = req.params.name
     try {
