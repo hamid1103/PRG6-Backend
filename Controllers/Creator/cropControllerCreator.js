@@ -38,7 +38,7 @@ const deleteCrop = async (req, res, next) => {
     const id = req.params.id
     try {
         await Crop.findByIdAndDelete(id)
-        res.status(204).json({message: "successfully removed " + name})
+        res.status(204).json({message: "successfully removed " + id})
     } catch (e) {
         next(e)
     }
