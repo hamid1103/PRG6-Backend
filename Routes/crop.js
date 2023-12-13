@@ -6,8 +6,8 @@ import {creatorRouter} from "./creator.js";
 
 const cropRouter = express.Router();
 
-cropRouter.delete('/:name', deleteCrop)
-cropRouter.put('/:name', updateCrop)
+cropRouter.delete('/:id', deleteCrop)
+cropRouter.put('/:id', updateCrop)
 
 cropRouter.post('/', registerNewCrop)
 
@@ -20,9 +20,9 @@ cropRouter.options("/", (req, res) => {
     res.sendStatus(200);
 });
 
-cropRouter.get('/findCrops/:name', findCrops)
-cropRouter.get('/:name',findCrop)
-cropRouter.options("/:name", (req, res) => {
+cropRouter.get('/findCrops/:id', findCrops)
+cropRouter.get('/:id',findCrop)
+cropRouter.options("/:id", (req, res) => {
     res.header('Allow', 'GET, DELETE, PUT, OPTIONS');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, DELETE, PUT, OPTIONS');

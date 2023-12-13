@@ -196,7 +196,7 @@ const findCrop = async (req, res, next)=>{
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
     try {
-        const crop = await Crop.findOne({name: req.params.name})
+        const crop = await Crop.findById(req.params.id)
         if (!crop) {
             return res.status(404).json({ message: 'No crop goes by that name matey' });
         }

@@ -21,13 +21,13 @@ const registerNewCrop = async (req, res, next) => {
 }
 
 const updateCrop = async (req, res, next) =>{
-    const oldname = req.params.name
+    const id = req.params.ud
     const {name, iconName, cropValue, growTime} = req.body
     try {
         if(!iconName || !cropValue || !growTime){
             return res.status(400).json({error: "Empty inputs"})
         }
-        let crop = await Crop.findOneAndUpdate({name:oldname}, {name, iconName,cropValue,growTime}, {new: true});
+        let crop = await Crop.findByIdAndUpdate(id, {name, iconName,cropValue,growTime}, {new: true});
         res.status(204).json(crop);
     } catch (error) {
         next(error);
@@ -35,9 +35,9 @@ const updateCrop = async (req, res, next) =>{
 }
 
 const deleteCrop = async (req, res, next) => {
-    const name = req.params.name
+    const id = req.params.id
     try {
-        await Crop.deleteOne({name: name}).exec();
+        await Crop.findByIdAndDelete(id)
         res.status(204).json({message: "successfully removed " + name})
     } catch (e) {
         next(e)
