@@ -194,8 +194,18 @@ const findCrops = async (req, res, next) =>{
 
 const findCrop = async (req, res, next)=>{
     try {
-        const crop = await Crop.find({name: req.params.name}).exec()
-        res.json(crop)
+        const crop = await Crop.findOne({name: req.params.name})
+        if (!crop) {
+            return res.status(404).json({ message: 'No crop goes by that name matey' });
+        }
+        let cropobj = crop.toObject()
+        res.json({
+            ...cropobj,
+            _links: {
+                self: {href: `${req.protocol}://${req.get('host')}/crops/${crop.name}`},
+                collection: { href: `${req.protocol}://${req.get('host')}/crops` }
+            }
+        })
     }catch (e){
         next(e)
     }
